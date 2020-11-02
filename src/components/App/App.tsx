@@ -6,7 +6,7 @@ const App: FC = () => {
   return (
     <div>
       <ThemeProvider>
-        <Header />
+        <Header chipLabel="Community" />
       </ThemeProvider>
     </div>
   );
