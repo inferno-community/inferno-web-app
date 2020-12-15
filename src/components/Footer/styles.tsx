@@ -2,7 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export default makeStyles((theme: Theme) => ({
   footer: {
-    backgroundColor: '#fafbfc',
+    backgroundColor: theme.palette.common.grayLighter,
     position: 'fixed',
     width: '100%',
     zIndex: 'auto',

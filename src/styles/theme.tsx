@@ -1,5 +1,25 @@
 import { createMuiTheme } from '@material-ui/core';
 
+// https://material-ui.com/customization/palette/#adding-new-colors
+declare module '@material-ui/core/styles/createPalette' {
+  interface CommonColors {
+    blue: string;
+    blueDark: string;
+    blueLighter: string;
+    red: string;
+    redDark: string;
+    gray: string;
+    grayMedium: string;
+    grayBlue: string;
+    grayBlueDark: string;
+    grayLight: string;
+    grayLighter: string;
+    grayLightest: string;
+    grayDark: string;
+    grayVeryDark: string;
+    green: string;
+  }
+}
 const colors = {
   white: '#fff',
   black: '#222',
