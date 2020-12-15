@@ -10,7 +10,7 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ chipLabel }) => {
   const styles = useStyles();
   return (
-    <header className={styles.header}>
+    <header>
       <img src={logo} alt="inferno logo" className={styles.logo} />
       {chipLabel && <Chip label={chipLabel} size="small" />}
     </header>
