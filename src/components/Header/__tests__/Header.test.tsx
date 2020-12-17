@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import Header from '../Header';
 
 test('renders Inferno Header', () => {
-  render(<Header />);
-  const linkElement = screen.getByText(/Inferno/i);
+  render(<Header chipLabel="Community" />);
+  const linkElement = screen.getByText(/Community/i);
   expect(linkElement).toBeInTheDocument();
 });
