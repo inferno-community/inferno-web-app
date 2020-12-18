@@ -40,7 +40,7 @@ Runs the linter to perform style checks.
 
 ### `npm build`
 
-Builds the app for production to the `build` folder.\
+Builds the app for production to the `build` folder.
 
 ## Contact Us
 The Inferno development team can be reached by email at inferno@groups.mitre.org.
