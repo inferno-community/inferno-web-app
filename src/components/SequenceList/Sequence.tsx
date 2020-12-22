@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import ListItem from '@material-ui/core/ListItem';
-import TestList, { Test } from './TestList/TestList';
+import TestList, { Test } from './TestList';
 import useStyles from './styles';
 import {
   Collapse,
@@ -19,7 +19,7 @@ import { green, red } from '@material-ui/core/colors';
 import { IconButton } from '@material-ui/core';
 import TabPanel from './TabPanel';
 
-interface SequenceProps {
+export interface SequenceProps {
   testList: Test[];
   title: string;
   description: string;
@@ -33,15 +33,15 @@ export enum SequenceResult {
   None,
 }
 
-const SequenceList: FC<SequenceProps> = ({ testList, title, description, result }) => {
+const Sequence: FC<SequenceProps> = ({ testList, title, description, result }) => {
   const styles = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const [value, setValue] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+  const [panelIndex, setPanelIndex] = React.useState(0);
   const handleClick = () => {
     setOpen(!open);
   };
   const handleChange = (event: React.ChangeEvent<Record<string, unknown>>, newValue: number) => {
-    setValue(newValue);
+    setPanelIndex(newValue);
   };
 
   return (
@@ -63,18 +63,23 @@ const SequenceList: FC<SequenceProps> = ({ testList, title, description, result 
         </ListItemSecondaryAction>
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <Tabs value={value} className={styles.tabs} onChange={handleChange} variant="fullWidth">
+        <Tabs
+          value={panelIndex}
+          className={styles.tabs}
+          onChange={handleChange}
+          variant="fullWidth"
+        >
           <Tab label="Test Results" />
           <Tab label="HTTP Requests" />
           <Tab label="About" />
         </Tabs>
-        <TabPanel value={value} index={0}>
+        <TabPanel currentPanelIndex={panelIndex} index={0}>
           <TestList tests={testList}></TestList>
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel currentPanelIndex={panelIndex} index={1}>
           Http requests here
         </TabPanel>
-        <TabPanel value={value} index={2}>
+        <TabPanel currentPanelIndex={panelIndex} index={2}>
           About Page
         </TabPanel>
       </Collapse>
@@ -82,4 +87,4 @@ const SequenceList: FC<SequenceProps> = ({ testList, title, description, result 
   );
 };
 
-export default SequenceList;
+export default Sequence;
