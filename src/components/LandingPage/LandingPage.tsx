@@ -11,21 +11,26 @@ import {
   FormControl,
   Grid,
   TextField,
-  Input,
   Divider,
 } from '@material-ui/core';
 import useStyles from './styles';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
+interface preset {
+  name: string;
+  fhirServer: string;
+  testSet: string;
+}
+
 interface LandingPageProps {
-  presets: string[];
+  presets: preset[];
   testSets: string[];
 }
 
 const Header: FC<LandingPageProps> = ({ presets, testSets }) => {
   const styles = useStyles();
   const [expanded, setExpand] = React.useState(false);
-  const [presetChosen, setPresetChosen] = React.useState('None');
+  const [presetChosen, setPresetChosen] = React.useState(0);
   const [fhirServerUrl, setFhirServerUrl] = React.useState('');
   const [testSetChosen, setTestSetChosen] = React.useState('');
   return (
@@ -40,7 +45,7 @@ const Header: FC<LandingPageProps> = ({ presets, testSets }) => {
         <Zoom in={!expanded}>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             size="large"
             startIcon={<PlayArrowIcon />}
             onClick={() => setExpand(true)}
@@ -63,6 +68,7 @@ const Header: FC<LandingPageProps> = ({ presets, testSets }) => {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={testSetChosen}
+                        disabled={presetChosen > 0}
                         onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
                           setTestSetChosen(event.target.value as string);
                         }}
@@ -76,9 +82,9 @@ const Header: FC<LandingPageProps> = ({ presets, testSets }) => {
                       <TextField
                         id="outlined-secondary"
                         label="FHIR Server"
-                        variant="outlined"
                         placeholder="http://your-fhir-server.org"
                         value={fhirServerUrl}
+                        disabled={presetChosen > 0}
                         onChange={(event) => setFhirServerUrl(event.target.value)}
                       />
                     </FormControl>
@@ -88,20 +94,28 @@ const Header: FC<LandingPageProps> = ({ presets, testSets }) => {
                     <FormControl className={styles.formControl}>
                       <InputLabel>Preset Configuration</InputLabel>
                       <Select
+                        className={styles.presetSelect}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={presetChosen}
+                        autoWidth={false}
                         onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
-                          setPresetChosen(event.target.value as string);
+                          const preset = presets[event.target.value as number];
+                          setPresetChosen(event.target.value as number);
+                          setFhirServerUrl(preset.fhirServer);
+                          setTestSetChosen(preset.testSet);
                         }}
                       >
-                        {presets.map((preset) => {
-                          return <MenuItem value={preset}>{preset}</MenuItem>;
+                        {presets.map((preset, index) => {
+                          return <MenuItem value={index}>{preset.name}</MenuItem>;
                         })}
                       </Select>
                     </FormControl>
                   </Grid>
                 </Grid>
+                <Button variant="contained" size="large" color="primary">
+                  GO!
+                </Button>
               </Container>
             </Paper>
           </Container>

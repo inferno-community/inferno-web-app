@@ -12,8 +12,13 @@ export default makeStyles((theme: Theme) => ({
   },
   formControl: {
     minWidth: '250px',
+    width: '100%',
+    paddingBottom: '10px',
   },
   inputGrid: {
     margin: '0',
+  },
+  presetSelect: {
+    width: '100%',
   },
 }));
