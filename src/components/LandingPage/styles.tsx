@@ -7,7 +7,11 @@ export default makeStyles((theme: Theme) => ({
   main: {
     marginTop: '20px',
   },
+  descriptionText: {
+    width: '85%',
+  },
   getStarted: {
+    marginTop: '25px',
     padding: '20px',
   },
   formControl: {
@@ -17,8 +21,9 @@ export default makeStyles((theme: Theme) => ({
   },
   inputGrid: {
     margin: '0',
+    padding: '10px 0',
   },
-  presetSelect: {
-    width: '100%',
+  divider: {
+    margin: '10px auto',
   },
 }));
