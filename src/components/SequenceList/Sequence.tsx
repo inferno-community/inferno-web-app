@@ -18,12 +18,15 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { green, red } from '@material-ui/core/colors';
 import { IconButton } from '@material-ui/core';
 import TabPanel from './TabPanel';
+import { SequenceRequirement } from '../RequirementsModal/RequirementsModal';
 
 export interface SequenceProps {
   testList: Test[];
   title: string;
   description: string;
   result: SequenceResult;
+  requirements: SequenceRequirement[];
+  showRequirementsModal?: (requirements: SequenceRequirement[]) => void;
 }
 
 export enum SequenceResult {
@@ -33,7 +36,14 @@ export enum SequenceResult {
   None,
 }
 
-const Sequence: FC<SequenceProps> = ({ testList, title, description, result }) => {
+const Sequence: FC<SequenceProps> = ({
+  testList,
+  title,
+  description,
+  result,
+  requirements,
+  showRequirementsModal,
+}) => {
   const styles = useStyles();
   const [open, setOpen] = React.useState(false);
   const [panelIndex, setPanelIndex] = React.useState(0);
@@ -43,6 +53,12 @@ const Sequence: FC<SequenceProps> = ({ testList, title, description, result }) =
   const handleChange = (event: React.ChangeEvent<Record<string, unknown>>, newValue: number) => {
     setPanelIndex(newValue);
   };
+
+  function runSequnce() {
+    if (showRequirementsModal && requirements.length > 0) {
+      showRequirementsModal(requirements);
+    }
+  }
 
   return (
     <div>
@@ -57,7 +73,7 @@ const Sequence: FC<SequenceProps> = ({ testList, title, description, result }) =
         <ListItemText primary={title} secondary={description} />
         {open ? <ExpandLess /> : <ExpandMore />}
         <ListItemSecondaryAction>
-          <IconButton edge="end">
+          <IconButton edge="end" onClick={() => runSequnce()}>
             <PlayArrowIcon />
           </IconButton>
         </ListItemSecondaryAction>

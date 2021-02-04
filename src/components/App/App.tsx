@@ -3,7 +3,6 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import ThemeProvider from 'components/ThemeProvider';
 import TestSequenceList from 'components/SequenceList/TestSequenceList';
-
 const App: FC = () => {
   return (
     <div>
