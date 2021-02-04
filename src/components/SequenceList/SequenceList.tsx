@@ -18,8 +18,8 @@ const SequenceList: FC<SequenceListProps> = ({ header, sequenceInfo }) => {
   }
 
   const sequences = sequenceInfo.map((sequenceProps: SequenceProps, index: number) => (
-    <div>
-      <Sequence {...sequenceProps} key={index} showRequirementsModal={showRequirementsModal} />
+    <div key={`sequence-${index}`}>
+      <Sequence {...sequenceProps} showRequirementsModal={showRequirementsModal} />
     </div>
   ));
   return (

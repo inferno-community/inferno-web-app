@@ -29,6 +29,7 @@ const sequence1: SequenceProps = {
   title: 'SMART on FHIR Discovery',
   description: "Retrieve server's SMART on FHIR configuration",
   result: SequenceResult.Failure,
+  requirements: [],
 };
 
 const sequence2: SequenceProps = {
@@ -36,6 +37,7 @@ const sequence2: SequenceProps = {
   title: 'Dynamic Registration',
   description: 'Verify that the server supports the OAuth 2.0 Dynamic Client Registration Protocol',
   result: SequenceResult.Success,
+  requirements: [],
 };
 
 test('renders sequence list', () => {

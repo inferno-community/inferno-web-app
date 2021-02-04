@@ -41,21 +41,32 @@ const RequirementsModal: FC<RequirementsModalProps> = ({
   hideModal,
 }) => {
   const styles = useStyles();
-  const requirementFields = requirements.map((requirement: SequenceRequirement) => {
+  const requirementFields = requirements.map((requirement: SequenceRequirement, index: number) => {
     if (requirementIsARadio(requirement)) {
-      const requirementOptions = requirement.values.map((option: string) => {
-        return <FormControlLabel value={option} control={<Radio />} label={option} />;
+      const requirementOptions = requirement.values.map((option: string, optionIndex: number) => {
+        return (
+          <FormControlLabel
+            key={`requirement${index}_option${optionIndex}`}
+            value={option}
+            control={<Radio id={`requirement${index}_option${optionIndex}_radio`} />}
+            label={option}
+            htmlFor={`requirement${index}_option${optionIndex}_radio`}
+            id={`requirement${index}_option${optionIndex}`}
+          />
+        );
       });
       return (
-        <ListItem className={styles.radioGroup}>
-          <FormLabel component="legend">{requirement.label}</FormLabel>
-          <RadioGroup row>{requirementOptions}</RadioGroup>
+        <ListItem key={`requirement${index}`} className={styles.radioGroup}>
+          <FormLabel component="label">{requirement.label}</FormLabel>
+          <RadioGroup row id={`requirement${index}_radiogroup`}>
+            {requirementOptions}
+          </RadioGroup>
         </ListItem>
       );
     } else {
       return (
-        <ListItem>
-          <TextField fullWidth label={requirement.label} />
+        <ListItem key={`requirement${index}`}>
+          <TextField id={`requirement${index}_input`} fullWidth label={requirement.label} />
         </ListItem>
       );
     }
