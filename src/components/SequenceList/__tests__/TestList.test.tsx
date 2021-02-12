@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { prettyDOM, render, screen } from '@testing-library/react';
 import TestList from '../TestList';
 import { Test, TestResult } from 'components/SequenceList/TestList';
+import { debug } from 'console';
 
 const test1: Test = {
   description: 'FHIR server makes SMART configuration available from well-known endpoint',
@@ -13,10 +14,10 @@ const test2: Test = {
 };
 const testList = [test1, test2];
 
-test('Sequence starts out collapsed', () => {
+test('Test list tests are rendered', () => {
   render(<TestList tests={testList} />);
-  const testResultsTab = screen.queryByText('Test Results');
-  expect(testResultsTab).toBeNull();
   const firstTest = screen.queryByText(test1.description);
-  expect(firstTest).toBeNull();
+  expect(firstTest).toBeVisible();
+  const secondtest = screen.queryByText(test2.description);
+  expect(secondtest).toBeVisible();
 });
