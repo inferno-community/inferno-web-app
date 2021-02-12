@@ -28,7 +28,7 @@ const TestList: FC<TestListProps> = ({ tests }) => {
   return (
     <List className={styles.root}>
       {tests.map((test, index) => (
-        <ListItem key={index}>
+        <ListItem key={index} className={index % 2 === 1 ? styles.testListItemAlternateRow : ''}>
           <ListItemIcon>
             {test.result === TestResult.Success ? (
               <CheckIcon style={{ color: green[500] }} />

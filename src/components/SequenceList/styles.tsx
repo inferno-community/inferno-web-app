@@ -11,4 +11,7 @@ export default makeStyles((theme: Theme) => ({
     minheight: 'auto',
     padding: 0,
   },
+  testListItemAlternateRow: {
+    backgroundColor: theme.palette.common.blueGray,
+  },
 }));

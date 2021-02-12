@@ -18,6 +18,7 @@ declare module '@material-ui/core/styles/createPalette' {
     grayDark: string;
     grayVeryDark: string;
     green: string;
+    blueGray: string;
   }
 }
 const colors = {
@@ -35,6 +36,7 @@ const colors = {
   grayVeryDark: '#3a3a3a',
   green: '#2fa874',
   orange: '#F88B30',
+  blueGray: '#e6ebf2',
 };
 
 const paletteBase = {
