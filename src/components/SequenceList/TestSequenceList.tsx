@@ -19,9 +19,13 @@ const test4: Test = {
   description: 'Client registration endpoint accepts POST messages',
   result: TestResult.Success,
 };
+const test5: Test = {
+  description: 'Registration endpoint does not respond with an error',
+  result: TestResult.Success,
+};
 
 const testList1 = [test1, test2];
-const testList2 = [test3, test4];
+const testList2 = [test3, test4, test5];
 
 const sequence1: SequenceProps = {
   testList: testList1,
