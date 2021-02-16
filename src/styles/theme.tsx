@@ -51,6 +51,12 @@ const paletteBase = {
 
 const lightTheme = createMuiTheme({
   palette: { ...paletteBase },
+  typography: {
+    h2: {
+      fontWeight: 'bold',
+      fontFamily: ['Roboto Condensed', 'sans-serif'].join(','),
+    },
+  },
 });
 
 export default lightTheme;

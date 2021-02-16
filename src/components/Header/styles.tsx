@@ -4,9 +4,10 @@ export default makeStyles((theme: Theme) => ({
   header: {
     color: theme.palette.primary.main,
     height: '5em',
-    padding: '0 0 1em 1em',
+    padding: '0.25em 0.25em',
     display: 'flex',
     alignItems: 'center',
+    backgroundColor: theme.palette.common.white,
   },
   logo: {
     objectFit: 'contain',
