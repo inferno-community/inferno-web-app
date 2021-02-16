@@ -1,8 +1,7 @@
 import React from 'react';
-import { prettyDOM, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import TestList from '../TestList';
 import { Test, TestResult } from 'components/SequenceList/TestList';
-import { debug } from 'console';
 
 const test1: Test = {
   description: 'FHIR server makes SMART configuration available from well-known endpoint',
