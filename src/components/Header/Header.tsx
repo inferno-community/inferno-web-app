@@ -11,7 +11,7 @@ const Header: FC<HeaderProps> = ({ chipLabel }) => {
   const styles = useStyles();
   return (
     <header className={styles.header}>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <img src={logo} alt="inferno logo" className={styles.logo} />
         {chipLabel && <Chip label={chipLabel} size="small" />}
       </Container>

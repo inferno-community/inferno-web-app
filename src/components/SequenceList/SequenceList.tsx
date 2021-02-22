@@ -1,17 +1,19 @@
 import React, { FC } from 'react';
-import Sequence, { SequenceProps } from './Sequence';
-import { List } from '@material-ui/core';
+import Sequence from './Sequence';
+import { Card, List } from '@material-ui/core';
+import { TestGroup, TestSequence } from 'models/models';
+import useStyles from './styles';
 
-interface SequenceListProps {
-  header: string;
-  sequenceInfo: SequenceProps[];
-}
-
-const SequenceList: FC<SequenceListProps> = ({ header, sequenceInfo }) => {
-  const sequences = sequenceInfo.map((sequenceProps: SequenceProps, index: number) => (
+const SequenceList: FC<TestGroup> = ({ test_sequences }) => {
+  const styles = useStyles();
+  const sequences = test_sequences.map((sequenceProps: TestSequence, index: number) => (
     <Sequence {...sequenceProps} key={index} />
   ));
-  return <List>{sequences}</List>;
+  return (
+    <Card className={styles.sequenceList}>
+      <List>{sequences}</List>
+    </Card>
+  );
 };
 
 export default SequenceList;

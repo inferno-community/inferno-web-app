@@ -15,8 +15,8 @@ import {
   withStyles,
 } from '@material-ui/core';
 import styles from './styles';
-
-const testSuitesEndpoint = 'http://localhost:3001/api/test_suites';
+import { TestSuite, TestSession } from 'models/models';
+import { getTestSuites, postTestSessions } from 'api/infernoApiService';
 
 interface preset {
   name: string;
@@ -24,20 +24,16 @@ interface preset {
   testSet: string;
 }
 
-type TestSet = {
-  title: string;
-  id: string;
-};
-
 interface LandingPageProps extends WithStyles<typeof styles> {
   presets: preset[];
+  launchTestSuite(testSuite: TestSuite): void;
 }
 
 type LandingPageState = {
   presetChosen: number;
   fhirServerUrl: string;
   testSetChosen: string;
-  testSets: TestSet[];
+  testSuites: TestSuite[];
 };
 
 export class LandingPage extends Component<LandingPageProps, LandingPageState> {
@@ -45,15 +41,25 @@ export class LandingPage extends Component<LandingPageProps, LandingPageState> {
     presetChosen: 0,
     fhirServerUrl: '',
     testSetChosen: '',
-    testSets: [],
+    testSuites: [],
   };
 
-  public componentDidMount(): void {
-    fetch(testSuitesEndpoint)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        this.setState({ ...this.state, testSets: result as TestSet[] });
+  componentDidMount(): void {
+    getTestSuites()
+      .then((testSuites: TestSuite[]) => {
+        this.setState({ ...this.state, testSuites: testSuites });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  createTestSession(): void {
+    postTestSessions(this.state.testSetChosen)
+      .then((testSession: TestSession) => {
+        if (testSession.test_suite) {
+          this.props.launchTestSuite(testSession.test_suite);
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -92,11 +98,11 @@ export class LandingPage extends Component<LandingPageProps, LandingPageState> {
                           });
                         }}
                       >
-                        {this.state.testSets.map((preset) => {
+                        {this.state.testSuites.map((testSuite: TestSuite) => {
                           return (
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                            <MenuItem key={preset.title} value={preset.title}>
-                              {preset.title}
+                            <MenuItem key={testSuite.title} value={testSuite.id}>
+                              {testSuite.title}
                             </MenuItem>
                           );
                         })}
@@ -148,7 +154,12 @@ export class LandingPage extends Component<LandingPageProps, LandingPageState> {
                     </FormControl>
                   </Grid>
                 </Grid>
-                <Button variant="contained" size="large" color="primary">
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  onClick={() => this.createTestSession()}
+                >
                   GO!
                 </Button>
               </Container>

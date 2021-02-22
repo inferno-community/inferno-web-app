@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import ListItem from '@material-ui/core/ListItem';
-import TestList, { Test } from './TestList';
+import TestList from './TestList';
 import useStyles from './styles';
 import {
   Collapse,
@@ -18,22 +18,9 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { green, red } from '@material-ui/core/colors';
 import { IconButton } from '@material-ui/core';
 import TabPanel from './TabPanel';
+import { TestSequence, Result } from 'models/models';
 
-export interface SequenceProps {
-  testList: Test[];
-  title: string;
-  description: string;
-  result: SequenceResult;
-}
-
-export enum SequenceResult {
-  Success,
-  Failure,
-  Skipped,
-  None,
-}
-
-const Sequence: FC<SequenceProps> = ({ testList, title, description, result }) => {
+const Sequence: FC<TestSequence> = ({ tests, title, description, result }) => {
   const styles = useStyles();
   const [open, setOpen] = React.useState(false);
   const [panelIndex, setPanelIndex] = React.useState(0);
@@ -48,7 +35,7 @@ const Sequence: FC<SequenceProps> = ({ testList, title, description, result }) =
     <div>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
-          {result === SequenceResult.Success ? (
+          {result === Result.Success ? (
             <CheckIcon style={{ color: green[500] }} />
           ) : (
             <CancelIcon style={{ color: red[500] }} />
@@ -74,7 +61,7 @@ const Sequence: FC<SequenceProps> = ({ testList, title, description, result }) =
           <Tab label="About" />
         </Tabs>
         <TabPanel currentPanelIndex={panelIndex} index={0}>
-          <TestList tests={testList}></TestList>
+          <TestList tests={tests}></TestList>
         </TabPanel>
         <TabPanel currentPanelIndex={panelIndex} index={1}>
           Http requests here

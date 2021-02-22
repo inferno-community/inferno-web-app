@@ -14,4 +14,8 @@ export default makeStyles((theme: Theme) => ({
   testListItemAlternateRow: {
     backgroundColor: theme.palette.common.blueGray,
   },
+  sequenceList: {
+    backgroundColor: theme.palette.background.paper,
+    margin: '10px 0',
+  },
 }));
