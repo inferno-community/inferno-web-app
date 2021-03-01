@@ -18,4 +18,13 @@ export default makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     margin: '10px 0',
   },
+  testSuite: {
+    paddingTop: '10px',
+  },
+  testIcon: {
+    minWidth: '30px',
+  },
+  testGroupCard: {
+    margin: '10px 0',
+  },
 }));

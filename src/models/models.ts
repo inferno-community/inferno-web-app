@@ -5,22 +5,11 @@ export enum Result {
   None,
 }
 
-export interface Test {
-  title: string;
-  result: Result;
-}
-
-export interface TestSequence {
-  id: string;
-  tests: Test[];
-  title: string;
-  description: string;
-  result: Result;
-}
-
 export interface TestGroup {
   id: string;
-  test_sequences: TestSequence[];
+  title: string;
+  test_groups: TestGroup[];
+  result: Result;
 }
 
 export interface TestSuite {

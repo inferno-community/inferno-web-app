@@ -1,12 +1,10 @@
 import React, { FC, useState } from 'react';
 import Header from 'components/Header';
-import Footer from 'components/Footer';
 import LandingPage from 'components/LandingPage';
 import ThemeProvider from 'components/ThemeProvider';
-import TestSequenceList from 'components/SequenceList/TestSequenceList';
 import { Container } from '@material-ui/core';
 import { TestSuite } from 'models/models';
-import TestSuiteComponent from 'components/SequenceList/TestSuite';
+import TestSuiteComponent from 'components/TestSuite/TestSuite';
 
 const App: FC = () => {
   const presets = [
@@ -54,7 +52,6 @@ const App: FC = () => {
       <ThemeProvider>
         <Header chipLabel="Community" />
         <Container maxWidth="md">{component}</Container>
-        <Footer githubLink="https://github.com/onc-healthit/inferno" versionNumber="0.0" />
       </ThemeProvider>
     </div>
   );
