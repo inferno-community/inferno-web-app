@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { TestSuite, TestSession } from 'models/models';
+import { TestSuite, TestSession } from 'models/testSuiteModels';
 
 const apiEndpoint = 'http://localhost:3001/api';
 

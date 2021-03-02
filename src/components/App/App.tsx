@@ -3,7 +3,7 @@ import Header from 'components/Header';
 import LandingPage from 'components/LandingPage';
 import ThemeProvider from 'components/ThemeProvider';
 import { Container } from '@material-ui/core';
-import { TestSuite } from 'models/models';
+import { TestSuite } from 'models/testSuiteModels';
 import TestSuiteComponent from 'components/TestSuite/TestSuite';
 
 const App: FC = () => {

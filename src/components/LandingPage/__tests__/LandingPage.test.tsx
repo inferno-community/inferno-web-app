@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import LandingPage from '../LandingPage';
+import { TestSuite } from 'models/testSuiteModels';
 
 const presets = [
   {
@@ -21,10 +22,12 @@ const presets = [
   },
 ];
 
-const testSets = ['Bulk data tests (via BDT)', 'US Core v3.1.1'];
+function launchTestSuite(_testSuite: TestSuite) {
+  return;
+}
 
 test('renders landing page', () => {
-  render(<LandingPage presets={presets} testSets={testSets} />);
+  render(<LandingPage presets={presets} launchTestSuite={launchTestSuite} />);
   const titleText = screen.getByText('FHIR Testing with Inferno');
   expect(titleText).toBeVisible();
 });

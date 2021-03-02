@@ -11,7 +11,7 @@ import {
   Tab,
   Tabs,
 } from '@material-ui/core';
-import { Result, TestGroup } from 'models/models';
+import { Result, TestGroup } from 'models/testSuiteModels';
 import { green, red } from '@material-ui/core/colors';
 import CheckIcon from '@material-ui/icons/Check';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -68,7 +68,11 @@ const TestGroupComponent: FC<TestGroupProps> = ({ alternateRow, title, test_grou
         <TabPanel currentPanelIndex={panelIndex} index={0}>
           <List>
             {test_groups.map((subGroup: TestGroup, index: number) => (
-              <TestGroupComponent {...subGroup} alternateRow={index % 2 === 1} />
+              <TestGroupComponent
+                {...subGroup}
+                alternateRow={index % 2 === 1}
+                key={`tg-${subGroup.id}`}
+              />
             ))}
           </List>
         </TabPanel>

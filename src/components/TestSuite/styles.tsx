@@ -19,7 +19,7 @@ export default makeStyles((theme: Theme) => ({
     margin: '10px 0',
   },
   testSuite: {
-    paddingTop: '10px',
+    paddingTop: '25px',
   },
   testIcon: {
     minWidth: '30px',

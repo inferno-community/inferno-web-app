@@ -15,7 +15,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 import styles from './styles';
-import { TestSuite, TestSession } from 'models/models';
+import { TestSuite, TestSession } from 'models/testSuiteModels';
 import { getTestSuites, postTestSessions } from 'api/infernoApiService';
 
 interface preset {
@@ -88,8 +88,9 @@ export class LandingPage extends Component<LandingPageProps, LandingPageState> {
                     <FormControl className={classes.formControl}>
                       <InputLabel>Test Set</InputLabel>
                       <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="testSuite-select-label"
+                        id="testSuite-select"
+                        data-testid="testSuite-select"
                         value={this.state.testSetChosen}
                         disabled={this.state.presetChosen > 0}
                         onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
@@ -130,8 +131,8 @@ export class LandingPage extends Component<LandingPageProps, LandingPageState> {
                     <FormControl className={classes.formControl}>
                       <InputLabel>Preset Configuration</InputLabel>
                       <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="preset-select-label"
+                        id="preset-select"
                         value={this.state.presetChosen}
                         autoWidth={false}
                         onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
