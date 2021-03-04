@@ -1,7 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import LandingPage from '../LandingPage';
-import { TestSuite } from 'models/testSuiteModels';
+import { getTestSuites, postTestSessions } from 'api/infernoApiService';
+import { mocked } from 'ts-jest/utils';
+import {
+  mockedPostTestSuiteResponse,
+  mockedTestSuitesReturnValue,
+} from '../__mocked_data__/mockData';
 
 const presets = [
   {
@@ -22,12 +27,62 @@ const presets = [
   },
 ];
 
-function launchTestSuite(_testSuite: TestSuite) {
-  return;
-}
+const launchTestSuite = jest.fn();
+jest.mock('api/infernoApiService');
+const mockedGetTestSuites = mocked(getTestSuites, true);
+const mockedPostTestSessions = mocked(postTestSessions, true);
+// need to mock resolved value in each test for some reason
 
 test('renders landing page', () => {
+  mockedGetTestSuites.mockResolvedValue(mockedTestSuitesReturnValue);
   render(<LandingPage presets={presets} launchTestSuite={launchTestSuite} />);
   const titleText = screen.getByText('FHIR Testing with Inferno');
   expect(titleText).toBeVisible();
+});
+
+test('test suites are displayed in the select options when clicked', async () => {
+  mockedGetTestSuites.mockResolvedValue(mockedTestSuitesReturnValue);
+  render(<LandingPage presets={presets} launchTestSuite={launchTestSuite} />);
+  expect(mockedGetTestSuites).toHaveBeenCalledTimes(1);
+
+  // options are not shown at first
+  const firstOption = screen.queryByText(mockedTestSuitesReturnValue[0].title);
+  expect(firstOption).toBeNull();
+
+  const trigger = within(screen.getByTestId('testSuite-select')).getByRole('button');
+
+  // need to wait for menu options to be populated
+  await waitFor(() => {
+    fireEvent.mouseDown(trigger);
+    mockedTestSuitesReturnValue.forEach((testSuite) => {
+      const option = screen.getByText(testSuite.title);
+      expect(option).toBeVisible();
+    });
+  });
+});
+
+test('test suite is fetched and launched', async () => {
+  mockedGetTestSuites.mockResolvedValue(mockedTestSuitesReturnValue);
+  mockedPostTestSessions.mockResolvedValue(mockedPostTestSuiteResponse);
+  render(<LandingPage presets={presets} launchTestSuite={launchTestSuite} />);
+  const trigger = within(screen.getByTestId('testSuite-select')).getByRole('button');
+  fireEvent.mouseDown(trigger);
+  await waitFor(() => {
+    mockedTestSuitesReturnValue.forEach((testSuite) => {
+      const option = screen.getByText(testSuite.title);
+      expect(option).toBeVisible();
+    });
+  });
+  const demonstrationSuite = screen.getByText('Demonstration Suite');
+  fireEvent.click(demonstrationSuite);
+  await waitFor(() => {
+    const otherOption = screen.queryByText('Infrastructure Test');
+    expect(otherOption).toBeNull();
+  });
+  const goButton = screen.getByTestId('go-button');
+  fireEvent.click(goButton);
+  await waitFor(() => {
+    expect(mockedPostTestSessions).toHaveBeenCalled();
+    expect(launchTestSuite).toHaveBeenCalledWith(mockedPostTestSuiteResponse.test_suite);
+  });
 });

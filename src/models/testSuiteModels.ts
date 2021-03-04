@@ -9,7 +9,7 @@ export interface TestGroup {
   id: string;
   title: string;
   test_groups: TestGroup[];
-  result: Result;
+  result?: Result;
 }
 
 export interface TestSuite {

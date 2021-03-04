@@ -21,7 +21,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { RedoOutlined } from '@material-ui/icons';
 import TabPanel from './TabPanel';
 
-export function getIconFromResult(result: Result): JSX.Element {
+export function getIconFromResult(result: Result | undefined): JSX.Element {
   switch (result) {
     case Result.Success:
       return <CheckIcon style={{ color: green[500] }} />;

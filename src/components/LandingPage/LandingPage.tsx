@@ -159,6 +159,7 @@ export class LandingPage extends Component<LandingPageProps, LandingPageState> {
                   variant="contained"
                   size="large"
                   color="primary"
+                  data-testid="go-button"
                   onClick={() => this.createTestSession()}
                 >
                   GO!
