@@ -3,7 +3,7 @@ import Header from 'components/Header';
 import LandingPage from 'components/LandingPage';
 import ThemeProvider from 'components/ThemeProvider';
 import { Container } from '@material-ui/core';
-import { TestSuite } from 'models/testSuiteModels';
+import { TestSession, TestSuite } from 'models/testSuiteModels';
 import TestSuiteComponent from 'components/TestSuite/TestSuite';
 
 const App: FC = () => {
@@ -27,21 +27,23 @@ const App: FC = () => {
   const [activeComponent, setActiveComponent] = useState<ActiveComponents>(
     ActiveComponents.LandingPage
   );
-  const [testSuite, setTestSuite] = useState<TestSuite>();
+  const [testSession, setTestSession] = useState<TestSession>();
 
-  function launchTestSuite(testSuite: TestSuite) {
-    setTestSuite(testSuite);
+  function launchTestSession(testSession: TestSession) {
+    setTestSession(testSession);
     setActiveComponent(ActiveComponents.TestSuitePage);
   }
 
   let component;
   switch (activeComponent) {
     case ActiveComponents.LandingPage:
-      component = <LandingPage presets={presets} launchTestSuite={launchTestSuite} />;
+      component = <LandingPage presets={presets} launchTestSession={launchTestSession} />;
       break;
     case ActiveComponents.TestSuitePage:
-      if (testSuite) {
-        component = <TestSuiteComponent {...testSuite} />;
+      if (testSession?.test_suite) {
+        component = (
+          <TestSuiteComponent testSessionId={testSession.id} {...testSession.test_suite} />
+        );
       } else {
         component = 'Error';
       }

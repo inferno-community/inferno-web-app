@@ -6,25 +6,29 @@ import TestSuiteComponent from '../TestSuite';
 const test1: TestGroup = {
   id: '1',
   title: 'FHIR server makes SMART configuration available from well-known endpoint',
-  result: Result.Success,
+  // result: 'pass',
+  inputs: [],
   test_groups: [],
 };
 const test2: TestGroup = {
   id: '2',
   title: 'Well-known configuration contains required fields',
-  result: Result.Failure,
+  // result: {result: 'fail'},
+  inputs: [],
   test_groups: [],
 };
 const test3: TestGroup = {
   id: '3',
   title: 'Client registration endpoint secured by transport layer security',
-  result: Result.Success,
+  // result: Result.Success,
+  inputs: [],
   test_groups: [],
 };
 const test4: TestGroup = {
   id: '4',
   title: 'Client registration endpoint accepts POST messages',
-  result: Result.Success,
+  // result: Result.Success,
+  inputs: [],
   test_groups: [],
 };
 
@@ -34,15 +38,17 @@ const testList2 = [test3, test4];
 const sequence1: TestGroup = {
   test_groups: testList1,
   title: 'SMART on FHIR Discovery',
-  result: Result.Failure,
+  // result: Result.Failure,
   id: '0',
+  inputs: [],
 };
 
 const sequence2: TestGroup = {
   test_groups: testList2,
   title: 'Dynamic Registration',
-  result: Result.Success,
+  // result: Result.Success,
   id: '1',
+  inputs: [],
 };
 
 const testSuiteProps: TestSuite = {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { TestSuite, TestSession } from 'models/testSuiteModels';
+import { TestSuite, TestSession, TestGroup } from 'models/testSuiteModels';
 
 const apiEndpoint = 'http://localhost:3001/api';
 
@@ -13,7 +13,7 @@ function getEndpoint(route: string, parameters?: parameter[]): string {
   if (parameters) {
     const parametersString = parameters
       .map((parameter) => `${parameter.name}=${parameter.value}`)
-      .join(',');
+      .join('&');
     return `${apiEndpoint}${route}?${parametersString}`;
   }
   return apiEndpoint + route;
@@ -46,5 +46,29 @@ export function postTestSessions(testSuiteID: string): Promise<TestSession> {
     .catch((e) => {
       console.log(e);
       return { id: 'error', test_suite_id: testSuiteID };
+    });
+}
+
+export interface InputValue {
+  name: string;
+  value: string;
+}
+export function runTestGroup(
+  testSessionId: string,
+  testGroupId: string,
+  inputs: InputValue[]
+): Promise<string> {
+  const testGroupIDParameter = { name: 'test_group_id', value: testGroupId };
+  const testSessionIDParameter = { name: 'test_session_id', value: testSessionId };
+  const testRunEndpoint = getEndpoint('/test_runs', [testGroupIDParameter, testSessionIDParameter]);
+  return fetch(testRunEndpoint, { method: 'POST' })
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+      return 'yeah';
+    })
+    .catch((e) => {
+      console.log(e);
+      return 'rip';
     });
 }

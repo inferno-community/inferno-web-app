@@ -22,25 +22,40 @@ import { RedoOutlined } from '@material-ui/icons';
 import TabPanel from './TabPanel';
 
 export function getIconFromResult(result: Result | undefined): JSX.Element {
-  switch (result) {
-    case Result.Success:
-      return <CheckIcon style={{ color: green[500] }} />;
-    case Result.Failure:
-      return <CancelIcon style={{ color: red[500] }} />;
-    case Result.Skipped:
-      return <RedoOutlined />;
-    case Result.None:
-      return <Fragment />;
-    default:
-      return <Fragment />;
+  if (result) {
+    switch (result.result) {
+      case 'pass':
+        return <CheckIcon style={{ color: green[500] }} />;
+      case 'fail':
+        return <CancelIcon style={{ color: red[500] }} />;
+      case 'skip':
+        return <RedoOutlined />;
+      case 'omit':
+        return <Fragment />;
+      default:
+        return <Fragment />;
+    }
+  } else {
+    return <Fragment />;
   }
 }
 
 interface TestGroupProps extends TestGroup {
   alternateRow?: boolean;
+  testSessionId: string;
+  showInputsModal: (testGroupId: string, inputs: string[]) => void;
 }
 
-const TestGroupComponent: FC<TestGroupProps> = ({ alternateRow, title, test_groups, result }) => {
+const TestGroupComponent: FC<TestGroupProps> = ({
+  alternateRow,
+  title,
+  test_groups,
+  result,
+  inputs,
+  id,
+  testSessionId,
+  showInputsModal,
+}) => {
   const styles = useStyles();
   const [open, setOpen] = React.useState(false);
   const [panelIndex, setPanelIndex] = React.useState(0);
@@ -50,6 +65,32 @@ const TestGroupComponent: FC<TestGroupProps> = ({ alternateRow, title, test_grou
   const handleChange = (event: React.ChangeEvent<Record<string, unknown>>, newValue: number) => {
     setPanelIndex(newValue);
   };
+
+  function getAllContainedInputs(): string[] {
+    let all_inputs: string[] = inputs;
+    test_groups.forEach((subGroup) => {
+      all_inputs = all_inputs.concat(getInputsRecursive(subGroup));
+    });
+    return all_inputs;
+  }
+
+  function getInputsRecursive(testGroup: TestGroup): string[] {
+    let inputs = testGroup.inputs;
+    testGroup.test_groups.forEach((subGroup) => {
+      inputs = inputs.concat(getInputsRecursive(subGroup));
+    });
+    return inputs;
+  }
+
+  function runSequnce(): void {
+    const inputs = getAllContainedInputs();
+    if (inputs.length === 0) {
+      return;
+    } else {
+      showInputsModal(id, inputs);
+    }
+  }
+
   let subGroups: JSX.Element | null = null;
   let expandButton: JSX.Element | null = null;
   if (test_groups.length > 0) {
@@ -72,6 +113,8 @@ const TestGroupComponent: FC<TestGroupProps> = ({ alternateRow, title, test_grou
                 {...subGroup}
                 alternateRow={index % 2 === 1}
                 key={`tg-${subGroup.id}`}
+                testSessionId={testSessionId}
+                showInputsModal={showInputsModal}
               />
             ))}
           </List>
@@ -99,7 +142,7 @@ const TestGroupComponent: FC<TestGroupProps> = ({ alternateRow, title, test_grou
         <ListItemText primary={title} />
         {expandButton}
         <ListItemSecondaryAction>
-          <IconButton edge="end">
+          <IconButton edge="end" onClick={() => runSequnce()}>
             <PlayArrowIcon />
           </IconButton>
         </ListItemSecondaryAction>

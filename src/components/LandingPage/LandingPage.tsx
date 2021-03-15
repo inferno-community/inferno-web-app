@@ -26,7 +26,7 @@ interface preset {
 
 interface LandingPageProps extends WithStyles<typeof styles> {
   presets: preset[];
-  launchTestSuite(testSuite: TestSuite): void;
+  launchTestSession(testSession: TestSession): void;
 }
 
 type LandingPageState = {
@@ -58,7 +58,7 @@ export class LandingPage extends Component<LandingPageProps, LandingPageState> {
     postTestSessions(this.state.testSetChosen)
       .then((testSession: TestSession) => {
         if (testSession.test_suite) {
-          this.props.launchTestSuite(testSession.test_suite);
+          this.props.launchTestSession(testSession);
         }
       })
       .catch((e) => {
