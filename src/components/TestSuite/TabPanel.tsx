@@ -1,5 +1,5 @@
-import { Box } from '@material-ui/core';
 import React, { FC } from 'react';
+import useStyles from './styles';
 
 interface TabPanelProps {
   index: number;
@@ -7,6 +7,7 @@ interface TabPanelProps {
 }
 
 const TabPanel: FC<TabPanelProps> = ({ index, currentPanelIndex, children }) => {
+  const styles = useStyles();
   return (
     <div
       role="tabpanel"
@@ -14,7 +15,7 @@ const TabPanel: FC<TabPanelProps> = ({ index, currentPanelIndex, children }) => 
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
     >
-      {currentPanelIndex === index && <Box p={3}>{children}</Box>}
+      {currentPanelIndex === index && <div className={styles.nested}>{children}</div>}
     </div>
   );
 };

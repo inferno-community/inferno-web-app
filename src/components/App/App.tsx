@@ -1,8 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Header from 'components/Header';
-import Footer from 'components/Footer';
 import LandingPage from 'components/LandingPage';
 import ThemeProvider from 'components/ThemeProvider';
+import { Container } from '@material-ui/core';
+import { TestSuite } from 'models/testSuiteModels';
+import TestSuiteComponent from 'components/TestSuite/TestSuite';
 
 const App: FC = () => {
   const presets = [
@@ -12,23 +14,44 @@ const App: FC = () => {
       testSet: '',
     },
     {
-      name: 'SMART Bulk Tests',
-      fhirServer:
-        'https://bulk-data.smarthealthit.org/eyJlcnIiOiIiLCJwYWdlIjoxMDAwLCJkdXIiOjEwLCJ0bHQiOjE1LCJtIjoxLCJzdHUiOjR9/fhir',
-      testSet: 'Bulk data tests (via BDT)',
-    },
-    {
-      name: 'US Core v3.1.1 with Inferno Reference Server',
+      name: 'Demonstration Sequence',
       fhirServer: 'https://inferno.healthit.gov/reference-server/r4',
-      testSet: 'US Core v3.1.1',
+      testSet: 'DemoIG_STU1::DemoSuite',
     },
   ];
+  enum ActiveComponents {
+    LandingPage,
+    TestSuitePage,
+  }
+
+  const [activeComponent, setActiveComponent] = useState<ActiveComponents>(
+    ActiveComponents.LandingPage
+  );
+  const [testSuite, setTestSuite] = useState<TestSuite>();
+
+  function launchTestSuite(testSuite: TestSuite) {
+    setTestSuite(testSuite);
+    setActiveComponent(ActiveComponents.TestSuitePage);
+  }
+
+  let component;
+  switch (activeComponent) {
+    case ActiveComponents.LandingPage:
+      component = <LandingPage presets={presets} launchTestSuite={launchTestSuite} />;
+      break;
+    case ActiveComponents.TestSuitePage:
+      if (testSuite) {
+        component = <TestSuiteComponent {...testSuite} />;
+      } else {
+        component = 'Error';
+      }
+      break;
+  }
   return (
     <div>
       <ThemeProvider>
         <Header chipLabel="Community" />
-        <LandingPage presets={presets} testSets={['Bulk data tests (via BDT)', 'US Core v3.1.1']} />
-        <Footer githubLink="https://github.com/onc-healthit/inferno" versionNumber="0.0" />
+        <Container maxWidth="md">{component}</Container>
       </ThemeProvider>
     </div>
   );

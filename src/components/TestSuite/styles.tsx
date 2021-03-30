@@ -14,4 +14,17 @@ export default makeStyles((theme: Theme) => ({
   testListItemAlternateRow: {
     backgroundColor: theme.palette.common.blueGray,
   },
+  sequenceList: {
+    backgroundColor: theme.palette.background.paper,
+    margin: '10px 0',
+  },
+  testSuite: {
+    paddingTop: '25px',
+  },
+  testIcon: {
+    minWidth: '30px',
+  },
+  testGroupCard: {
+    margin: '10px 0',
+  },
 }));
