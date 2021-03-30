@@ -16,7 +16,7 @@ const App: FC = () => {
     {
       name: 'Demonstration Sequence',
       fhirServer: 'https://inferno.healthit.gov/reference-server/r4',
-      testSet: 'Demonstration Sequence',
+      testSet: 'DemoIG_STU1::DemoSuite',
     },
   ];
   enum ActiveComponents {
